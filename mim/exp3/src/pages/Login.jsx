@@ -12,26 +12,26 @@ function Login() {
     const { name, value } = e.target;
     console.log(name, value);
 
-    setFormData((prevData) => ({  
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  
+
   };
 
   const handleSubmit = (e) => {
- 
+
     e.preventDefault();
     if (formData.username === "admin" && formData.password === "admin123") {
 
       localStorage.setItem("isLoggedIn", "true");
-      window.location.href = "/dashboard";
+      navigate("/dashboard");
 
     }
     else {
       alert("Invalid username or password");
     }
- 
+
   };
 
   const styles = {

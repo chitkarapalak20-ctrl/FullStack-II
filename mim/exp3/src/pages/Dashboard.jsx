@@ -1,8 +1,10 @@
 import React from "react";
 import students from "../data/student";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
+
 
 function Dashboard() {
+  const navigate = useNavigate();
   const activeStudents = students.filter(
     (student) => student.status === "Active"
   ).length;
@@ -114,12 +116,12 @@ function Dashboard() {
       `}</style>
 
       <div className="dashboard">
-        
+
         <h1 className="title">📊 Student Dashboard</h1>
-        
+
         <button onClick={() => {
           localStorage.removeItem("isLoggedIn")
-          window.location.href="/home"
+          navigate("/")
         }}>Logout</button>
 
         <p className="subtitle">Manage students and monitor statistics.</p>
