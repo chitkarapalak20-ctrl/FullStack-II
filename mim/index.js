@@ -4,27 +4,33 @@ const path = require('path');
 
 const PORT = 3000;
 
-
 const server = http.createServer((req, res) => {
-    let filePath = path.join(__dirname, 'exp3/dist', req.url === '/' ? 'index.html' : req.url);
+
+    let filePath = path.join(
+        __dirname,
+        'exp3/dist',
+        req.url === '/' ? 'index.html' : req.url
+    );
 
     fs.readFile(filePath, (err, data) => {
 
-        // If file doesn't exist, serve React index.html
+        // If file doesn't exist, serve index.html
         if (err) {
-
+            filePath = path.join(__dirname, 'exp3/dist', 'index.html');
 
             fs.readFile(filePath, (err, data) => {
 
                 if (err) {
-                    res.writeHead(500, {
-                        'Content-Type': 'text/plain'
-                    });
-
+                    res.writeHead(500);
                     res.end('Internal Server Error');
                     return;
                 }
 
+                res.writeHead(200, {
+                    'Content-Type': 'text/html'
+                });
+
+                res.end(data);
             });
 
             return;
@@ -36,18 +42,13 @@ const server = http.createServer((req, res) => {
             '.html': 'text/html',
             '.css': 'text/css',
             '.js': 'text/javascript',
-            '.json': 'application/json',
             '.png': 'image/png',
             '.jpg': 'image/jpeg',
-            '.jpeg': 'image/jpeg',
-            '.svg': 'image/svg+xml',
-            '.ico': 'image/x-icon'
+            '.svg': 'image/svg+xml'
         };
 
-        const contentType = mimeTypes[ext] || 'application/octet-stream';
-
         res.writeHead(200, {
-            'Content-Type': contentType
+            'Content-Type': mimeTypes[ext] || 'text/plain'
         });
 
         res.end(data);
